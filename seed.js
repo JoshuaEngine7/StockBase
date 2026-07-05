@@ -87,10 +87,23 @@ const areas = [
   'Conference Room', 'Sales Floor', 'Break Room'
 ];
 
-const brands = ['Dell', 'HP', 'Lenovo', 'Acer', 'Apple', 'ASUS', 'Samsung'];
-const types = ['Desktop', 'Laptop', 'Printer', 'Scanner', 'Monitor', 'Server', 'Switch', 'Router', 'UPS', 'Tablet'];
-const processors = ['Intel Core i5-12400', 'Intel Core i7-13700', 'AMD Ryzen 5 5600', 'AMD Ryzen 7 7700', 'Intel Core i3-12100', 'Apple M2'];
-const os = ['Windows 11 Pro', 'Windows 10 Pro', 'Windows Server 2022', 'macOS Ventura', 'Ubuntu 22.04'];
+// Must match the app's tipoEquipo catalog (App.jsx FIELD_GROUPS options).
+// Weighted so PCs and printers dominate, like a real office inventory.
+const types = ['PC', 'PC', 'PC', 'PC', 'LAPTOP', 'LAPTOP', 'IMPRESORA', 'IMPRESORA', 'IMPRESORA', 'MONITOR', 'SCANNER', 'SERVIDOR', 'SWITCH', 'NO-BREAK'];
+const brandsByType = {
+  'PC': ['Dell', 'HP', 'Lenovo', 'Acer', 'ASUS'],
+  'LAPTOP': ['Dell', 'HP', 'Lenovo', 'Acer', 'ASUS'],
+  'IMPRESORA': ['HP', 'Brother', 'Epson', 'Canon'],
+  'MONITOR': ['Dell', 'HP', 'Samsung', 'LG', 'BenQ'],
+  'SCANNER': ['Epson', 'Canon', 'HP'],
+  'SERVIDOR': ['Dell', 'HP', 'Lenovo'],
+  'SWITCH': ['Cisco', 'TP-Link', 'HP'],
+  'NO-BREAK': ['APC', 'Tripp Lite', 'CyberPower'],
+};
+const processors = ['Intel Core i5-12400', 'Intel Core i7-13700', 'AMD Ryzen 5 5600', 'AMD Ryzen 7 7700', 'Intel Core i3-12100'];
+const os = ['Windows 11 Pro', 'Windows 10 Pro', 'Ubuntu 22.04'];
+const serverOS = ['Windows Server 2022', 'Ubuntu 22.04'];
+const cap = s => s.charAt(0) + s.slice(1).toLowerCase();
 const people = [
   { nombres: 'Maria', apPaterno: 'Gonzalez', apMaterno: 'Rivera', correo: 'maria.gonzalez@stockbase.com', matricula: 'EMP-001', puesto: 'Analyst' },
   { nombres: 'Juan', apPaterno: 'Lopez', apMaterno: 'Torres', correo: 'juan.lopez@stockbase.com', matricula: 'EMP-002', puesto: 'Manager' },
@@ -127,8 +140,8 @@ const insertEquipo = db.prepare(`
 const equipos = db.transaction(() => {
   for (let i = 1; i <= 60; i++) {
     const person = pick(people);
-    const brand = pick(brands);
     const type = pick(types);
+    const brand = pick(brandsByType[type]);
     insertEquipo.run({
       id: `eq_${String(i).padStart(4, '0')}`,
       no: i,
@@ -136,18 +149,18 @@ const equipos = db.transaction(() => {
       alias: `${type}-${String(i).padStart(3, '0')}`,
       tipoEquipo: type,
       marca: brand,
-      modelo: `${brand} ${type} ${2020 + Math.floor(Math.random() * 5)}`,
+      modelo: `${type.length <= 3 ? type : cap(type)} ${2020 + Math.floor(Math.random() * 5)}`,
       noSerie: randSerial(),
       noInventario: randInv(),
       anioAdq: randYear(),
-      tipoProcesador: type === 'Desktop' || type === 'Laptop' ? pick(processors) : null,
+      tipoProcesador: ['PC', 'LAPTOP', 'SERVIDOR'].includes(type) ? pick(processors) : null,
       discoDuro: [256, 512, 1000, 2000][Math.floor(Math.random() * 4)],
       ram: [4, 8, 16, 32][Math.floor(Math.random() * 4)],
       ip: randIP(),
       mac: randMAC(),
       mascara: '255.255.255.0',
-      hostname: `SB-${type.toUpperCase().slice(0,3)}-${String(i).padStart(3,'0')}`,
-      so: type === 'Printer' || type === 'Switch' ? null : pick(os),
+      hostname: `SB-${type.replace(/[^A-Z]/g, '').slice(0,3)}-${String(i).padStart(3,'0')}`,
+      so: type === 'SERVIDOR' ? pick(serverOS) : (['PC', 'LAPTOP'].includes(type) ? pick(os) : null),
       nombres: person.nombres,
       apPaterno: person.apPaterno,
       apMaterno: person.apMaterno,
@@ -164,12 +177,17 @@ equipos();
 console.log('  ✓ 60 equipment records created');
 
 // ── Seed tickets ───────────────────────────────────────────────────
-const ticketDescs = [
-  'Computer won\'t turn on', 'Blue screen on startup', 'Printer paper jam',
-  'Slow internet connection', 'Software installation request', 'Monitor flickering',
-  'Keyboard not responding', 'Email not syncing', 'Need password reset',
-  'USB port not working', 'Scanner driver issue', 'Network cable replacement',
-];
+// Failure descriptions that plausibly match each equipment type
+const descsByType = {
+  'PC': ['Computer won\'t turn on', 'Blue screen on startup', 'Software installation request', 'Keyboard not responding', 'Need password reset', 'USB port not working', 'Slow performance'],
+  'LAPTOP': ['Battery drains too fast', 'Won\'t connect to Wi-Fi', 'Software installation request', 'Screen flickering', 'Need password reset'],
+  'IMPRESORA': ['Printer paper jam', 'Print quality issues', 'Printer offline', 'Toner replacement needed'],
+  'MONITOR': ['Monitor flickering', 'No signal', 'Dead pixels'],
+  'SCANNER': ['Scanner driver issue', 'Scans come out blank'],
+  'SERVIDOR': ['Shared folder not accessible', 'Service not responding'],
+  'SWITCH': ['Slow internet connection', 'Network cable replacement', 'Port not working'],
+  'NO-BREAK': ['Battery replacement needed', 'Beeping constantly'],
+};
 const estados = ['pendiente', 'en proceso', 'resuelto'];
 
 const insertTicket = db.prepare(`
@@ -180,14 +198,15 @@ const insertTicket = db.prepare(`
 const tickets = db.transaction(() => {
   for (let i = 1; i <= 15; i++) {
     const d = new Date(2025, Math.floor(Math.random()*12), Math.floor(Math.random()*28)+1);
+    const equipoTipo = pick(types);
     insertTicket.run({
       id: `tkt_${String(i).padStart(4, '0')}`,
       folio: 100000 + Math.floor(Math.random() * 900000),
       fecha: d.toISOString().split('T')[0],
-      equipoDesc: pick(types),
+      equipoDesc: equipoTipo,
       area: pick(areas),
       solicitante: pick(people).nombres + ' ' + pick(people).apPaterno,
-      descripcion: pick(ticketDescs),
+      descripcion: pick(descsByType[equipoTipo]),
       responsable: 'ALEX MARTINEZ GARCIA',
       estado: pick(estados),
     });
