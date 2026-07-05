@@ -33,8 +33,8 @@ I built it from scratch for a production environment that manages more than 200 
 ## Quick start
 
 ```bash
-git clone https://github.com/JoshuaEngine7/stockbase.git
-cd stockbase
+git clone https://github.com/JoshuaEngine7/StockBase.git
+cd StockBase
 npm install
 
 # Set up environment
@@ -78,7 +78,29 @@ stockbase/
 
 ## Screenshots
 
-Coming soon. The app runs on a local network without public access.
+**Public portal** — anyone on the LAN can report an equipment failure, no login required:
+
+![Public portal](docs/login.png)
+
+**Equipment census** — the main inventory view (admin):
+
+![Equipment census](docs/censo.png)
+
+**Support tickets** — folio tracking, status and assignment:
+
+![Support tickets](docs/tickets.png)
+
+**Preventive maintenance** — per-equipment checklist with photo evidence:
+
+![Preventive maintenance](docs/mantenimiento.png)
+
+**Security criteria** — 22-point compliance audit per workstation:
+
+![Security criteria](docs/criterios.png)
+
+**Dashboard** — analytics with PDF export:
+
+![Dashboard](docs/dashboard.png)
 
 ## A note on scope
 
