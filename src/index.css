@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+select, option {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+select option:hover {
+  background-color: #334155;
+}
