@@ -75,12 +75,12 @@ const CRITERIOS_SECTIONS = [
     icon: "🔐",
     color: "#f59e0b",
     items: [
-      { key: "crit_contraseniaVisible",       code: "6.4.c",   label: "Contraseña visible", desc: "Validar que no se encuentre escrita por ningún medio la contraseña entregada" },
-      { key: "crit_responsableCuentaGenerica", code: "6.4.h",   label: "Responsable cuenta genérica", desc: "Verificación del responsable de la cuenta genérica" },
-      { key: "crit_actualizacionesSO",         code: "6.4.j",   label: "Actualizaciones S.O.", desc: "Validación de equipo en dominio, o revisión de últimas actualizaciones del S.O." },
-      { key: "crit_borradoSeguro",             code: "4.5.d",   label: "Borrado seguro", desc: "Revisión de solicitudes de baja de cuenta y cédula de borrado seguro" },
-      { key: "crit_equiposBloqueados",         code: "6.6.3.c", label: "Equipos bloqueados/apagados", desc: "Validar que los equipos sean bloqueados por los usuarios y apagados al terminar jornada" },
-      { key: "crit_contraseniaEstandares",     code: "6.6.3.f", label: "Contraseña estándares", desc: "Validar que la contraseña cumpla los estándares de seguridad establecidos" },
+      { key: "crit_contraseniaVisible",       code: "A-01", label: "Contraseña visible", desc: "Validar que no se encuentre escrita por ningún medio la contraseña entregada" },
+      { key: "crit_responsableCuentaGenerica", code: "A-02", label: "Responsable cuenta genérica", desc: "Verificación del responsable de la cuenta genérica" },
+      { key: "crit_actualizacionesSO",         code: "A-03", label: "Actualizaciones S.O.", desc: "Validación de equipo en dominio, o revisión de últimas actualizaciones del S.O." },
+      { key: "crit_borradoSeguro",             code: "A-04", label: "Borrado seguro", desc: "Revisión de solicitudes de baja de cuenta y cédula de borrado seguro" },
+      { key: "crit_equiposBloqueados",         code: "A-05", label: "Equipos bloqueados/apagados", desc: "Validar que los equipos sean bloqueados por los usuarios y apagados al terminar jornada" },
+      { key: "crit_contraseniaEstandares",     code: "A-06", label: "Contraseña estándares", desc: "Validar que la contraseña cumpla los estándares de seguridad establecidos" },
     ]
   },
   {
@@ -89,12 +89,12 @@ const CRITERIOS_SECTIONS = [
     icon: "📧",
     color: "#3b82f6",
     items: [
-      { key: "crit_correoElectronico",  code: "4.1.b/f", label: "Correo electrónico", desc: "Validar uso ético del correo institucional (no asuntos personales)" },
-      { key: "crit_respaldoCorreoPST",  code: "4.1.x",   label: "Respaldo correo PST", desc: "Validar respaldos del buzón en equipo de cómputo (no en servidor)" },
-      { key: "crit_noProxyHistorial",   code: "4.1.d",   label: "No proxy / historial", desc: "No existencia de proxy y revisión del histórico de navegación" },
-      { key: "crit_noP2P",             code: "4.1.m",   label: "No programas P2P", desc: "No existencia de programas P2P instalados" },
-      { key: "crit_modemsNoAutorizados",code: "4.1.n",   label: "Modems no autorizados", desc: "No existan modems no autorizados instalados" },
-      { key: "crit_carpetaDescargas",   code: "4.1.f",   label: "Carpeta descargas", desc: "Validar carpeta Downloads sin software no autorizado" },
+      { key: "crit_correoElectronico",  code: "B-01", label: "Correo electrónico", desc: "Validar uso ético del correo corporativo (no asuntos personales)" },
+      { key: "crit_respaldoCorreoPST",  code: "B-02", label: "Respaldo correo PST", desc: "Validar respaldos del buzón en equipo de cómputo (no en servidor)" },
+      { key: "crit_noProxyHistorial",   code: "B-03", label: "No proxy / historial", desc: "No existencia de proxy y revisión del histórico de navegación" },
+      { key: "crit_noP2P",             code: "B-04", label: "No programas P2P", desc: "No existencia de programas P2P instalados" },
+      { key: "crit_modemsNoAutorizados",code: "B-05", label: "Modems no autorizados", desc: "No existan modems no autorizados instalados" },
+      { key: "crit_carpetaDescargas",   code: "B-06", label: "Carpeta descargas", desc: "Validar carpeta Downloads sin software no autorizado" },
     ]
   },
   {
@@ -103,16 +103,16 @@ const CRITERIOS_SECTIONS = [
     icon: "🛡️",
     color: "#10b981",
     items: [
-      { key: "crit_agenteSystemCenter",      code: "5.1.e",    label: "Agente System Center", desc: "Instalación del agente SCEP actualizado" },
-      { key: "crit_panelControlBloqueado",    code: "5.1.i",    label: "Panel de control bloqueado", desc: "Panel de control bloqueado en el equipo" },
-      { key: "crit_imagenInstitucional",      code: "5.1.K.IV", label: "Imagen institucional", desc: "Imagen institucional y software pre-instalado válido" },
-      { key: "crit_softwareNoInstitucional",  code: "5.1.k.VI", label: "Software no institucional", desc: "No exista software fuera de la imagen institucional" },
-      { key: "crit_escritorioLimpio",         code: "5.3",      label: "Escritorio limpio", desc: "Escritorio limpio (físico y lógico), sin archivos personales" },
-      { key: "crit_equipoEnDominio",          code: "5.4.g",    label: "Equipo en dominio", desc: "Configuración en dominio y permisos de administración" },
-      { key: "crit_agenteActualizaciones",    code: "5.4.i",    label: "Agente + actualizaciones", desc: "Sesión de dominio, agente System Center y actualizaciones recientes" },
-      { key: "crit_bloqueoAdmin",             code: "5.5.c",    label: "Bloqueo permisos admin", desc: "No existencia de permisos de administración (evitar desactivar antivirus)" },
-      { key: "crit_carpetasCompartidas",      code: "5.8.b",    label: "Carpetas compartidas", desc: "No carpetas compartidas ni contenido personal (imágenes, música, docs)" },
-      { key: "crit_licenciamientoVigente",    code: "5.1",      label: "Licenciamiento vigente", desc: "Licenciamiento vigente en equipo de cómputo" },
+      { key: "crit_agenteSystemCenter",      code: "C-01", label: "Agente System Center", desc: "Instalación del agente SCEP actualizado" },
+      { key: "crit_panelControlBloqueado",    code: "C-02", label: "Panel de control bloqueado", desc: "Panel de control bloqueado en el equipo" },
+      { key: "crit_imagenInstitucional",      code: "C-03", label: "Imagen corporativa", desc: "Imagen corporativa y software pre-instalado válido" },
+      { key: "crit_softwareNoInstitucional",  code: "C-04", label: "Software no autorizado", desc: "No exista software fuera de la imagen corporativa" },
+      { key: "crit_escritorioLimpio",         code: "C-05", label: "Escritorio limpio", desc: "Escritorio limpio (físico y lógico), sin archivos personales" },
+      { key: "crit_equipoEnDominio",          code: "C-06", label: "Equipo en dominio", desc: "Configuración en dominio y permisos de administración" },
+      { key: "crit_agenteActualizaciones",    code: "C-07", label: "Agente + actualizaciones", desc: "Sesión de dominio, agente System Center y actualizaciones recientes" },
+      { key: "crit_bloqueoAdmin",             code: "C-08", label: "Bloqueo permisos admin", desc: "No existencia de permisos de administración (evitar desactivar antivirus)" },
+      { key: "crit_carpetasCompartidas",      code: "C-09", label: "Carpetas compartidas", desc: "No carpetas compartidas ni contenido personal (imágenes, música, docs)" },
+      { key: "crit_licenciamientoVigente",    code: "C-10", label: "Licenciamiento vigente", desc: "Licenciamiento vigente en equipo de cómputo" },
     ]
   }
 ];
@@ -1379,7 +1379,7 @@ function CriteriosMainTab({ criterios, equipos, onCrear, onEliminar, readOnly })
   const exportarCriterios = async () => {
     const XLSX = await import('xlsx-js-style');
 
-    // Estilos institucionales
+    // Estilos corporativos
     const headerStyle = {
       font: { bold: true, color: { rgb: "FFFFFF" }, sz: 10 },
       fill: { fgColor: { rgb: "006847" }, patternType: "solid" },
@@ -3286,7 +3286,7 @@ export default function App() {
       {wch:14},{wch:8},{wch:12},{wch:30},
     ];
 
-    // Estilos institucionales (solo título y headers, NO celdas de datos)
+    // Estilos corporativos (solo título y headers, NO celdas de datos)
     const hdrStyle = {
       font: { bold: true, color: { rgb: "FFFFFF" }, sz: 9 },
       fill: { fgColor: { rgb: "006847" }, patternType: "solid" },
